@@ -1,0 +1,16 @@
+{% extends 'main/index.html' %}
+
+{% block body %}
+    <form method="POST">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <h1>Reserva tu cita en Chevalier</h1>
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Reservar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
