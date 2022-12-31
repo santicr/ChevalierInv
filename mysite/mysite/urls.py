@@ -17,9 +17,11 @@ from django.contrib import admin
 from django.urls import path
 from main.views import index
 from appointment.views import reserve
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name = 'index'),
-    path('reserve/', reserve, name = 'reserve')
+    path('reserve/', reserve, name = 'reserve'),
+    path('prueba/', TemplateView.as_view(template_name = 'index.html'), name = 'prueba')
 ]
