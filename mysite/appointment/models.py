@@ -7,5 +7,9 @@ class Appointment(models.Model):
     lastname1 = models.CharField(max_length = 150)
     lastname2 = models.CharField(max_length = 150)
     email = models.EmailField()
-    date = models.DateTimeField()
+    date = models.DateField()
+    hour = models.TimeField()
     barber = models.ForeignKey(Barber, on_delete = models.PROTECT)
+
+    def __str__(self) -> str:
+        return f'Cita {self.id} con el barbero {self.barber} y con hora {self.hour}'

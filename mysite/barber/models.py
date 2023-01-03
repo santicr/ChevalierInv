@@ -7,4 +7,4 @@ class Barber(models.Model):
     lastname2 = models.CharField(max_length = 100)
 
     def __str__(self) -> str:
-        return f'Barbero: {self.name} {self.lastname1} {self.lastname2}'
+        return f'{self.name} {self.lastname1} {self.lastname2} {self.id}'
