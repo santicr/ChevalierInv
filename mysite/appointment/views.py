@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from .forms import ReserveForm
+from .forms import ReserveForm, ReserveHourForm
 from appointment.models import Appointment
 from datetime import datetime, timedelta, date, time
+from django import forms
 
 # Create your views here.
 def reserve(req):
@@ -31,6 +32,5 @@ def reserve(req):
                 if not flag:
                     time_choices.append(new_time)
 
-        return redirect('index')
-    
+        form = ReserveHourForm()
     return render(req, 'appointment/reserve.html', {'form': form})

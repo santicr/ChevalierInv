@@ -4,7 +4,6 @@ from .models import Appointment
 from datetime import datetime, timedelta, date
 
 class ReserveForm(forms.Form):
-
     def convert(time):
         if time >= 1 and time <= 9:
             return str('0' + str(time))
@@ -31,3 +30,6 @@ class ReserveForm(forms.Form):
         attrs = {'type': 'date', 'min': start_time, 'max': final_time, 'lang': 'fr-CA', 'value': start_time}
     ))
     barber = forms.ChoiceField(choices = barber_choices, required = True, label = 'Barbero')
+
+class ReserveHourForm(forms.Form):
+    hour = forms.ChoiceField(choices = [], required = True, label = 'Hora')
