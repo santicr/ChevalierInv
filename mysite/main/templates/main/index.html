@@ -3,3 +3,20 @@
 {% block title %}
     Chevalier
 {% endblock %}
+
+{% block body %}
+    {% for b in barbers %}
+        <div class="card" style="width: 18rem;">
+            <img src="..." class="card-img-top" alt="imagen">
+            <div class="card-body">
+                <h5 class="card-title">{{ b.name }} {{ b.lastname1 }}</h5>
+                <p class="card-text">Reserva ya mismo con {{ b.name }}!</p>
+                <form method="POST" action="{% url 'reserve' b.id %}">
+                    {% csrf_token %}
+                    <input type="date" name="appointment_date" min="{{ min }}" max="{{ max }}" value="{{ value }}">
+                    <button type="submit" class="btn btn-primary">Ver disponibilidad</button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

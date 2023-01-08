@@ -1,14 +1,20 @@
 {% extends 'main/index.html' %}
 
 {% block body %}
-    <form method="POST" action="{% url 'reserve' %}">
+    <form method="POST" action="{% url 'confirm_reserve' barber_id date %}">
         <div class="container">
             <div class="row">
                 <div class="col-6">
                     <h1>Reserva tu cita en Chevalier</h1>
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <button type="submit" class="btn btn-primary">Ver disponibilidad</button>
+                    <select name="appointment_time">
+                        {% for id, t in time_choices %}
+                            <option value="{{ id }}">{{ t }}</option>
+                        {% endfor %}
+                    </select>
+                    <br/>
+                    <button type="submit" class="btn btn-primary">Reservar</button>
                 </div>
             </div>
         </div>
