@@ -35,11 +35,11 @@ def reserve(req, barber_id):
             today = datetime.now()
             date_flag = False
             if date.day == today.day:
-                print(date.day, today.day, today.hour - 5, new_time.hour)
-                if today.hour - 5 == new_time.hour:
+                print(date.day, today.day, today.hour, new_time.hour)
+                if today.hour == new_time.hour:
                     if today.minute + 30 <= new_time.hour:
                         date_flag = True
-                elif today.hour - 5 < new_time.hour:
+                elif today.hour < new_time.hour:
                     date_flag = True
             elif date.day > today.day:
                 date_flag = True
