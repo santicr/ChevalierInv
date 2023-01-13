@@ -7,6 +7,7 @@ from django.http import HttpResponseNotFound
 from django.core.mail import EmailMessage
 import uuid, calendar, locale
 from django.contrib import messages as m
+from django.views.decorators.csrf import requires_csrf_token
 
 locale.setlocale(locale.LC_ALL, 'es_es')
 
@@ -20,6 +21,7 @@ def convert(date: datetime):
         d = f'0{date.day}'
     return str(date.year) + m + d
 
+@requires_csrf_token
 def reserve(req, barber_id):
     if req.method == 'POST':
         form = ReserveForm()
@@ -33,22 +35,16 @@ def reserve(req, barber_id):
             t = timedelta(hours = 8, minutes = 30) + timedelta(minutes = 30 * i)
             new_time = time(t.seconds // 3600, (t.seconds // 60) % 60, 0)
             today = datetime.now()
-            date_flag = False
-            if date.day == today.day:
-                print(date.day, today.day, today.hour, new_time.hour)
-                if today.hour == new_time.hour:
-                    if today.minute + 30 <= new_time.hour:
+            date_flag = True
+            if today.year == date.year and date.month == today.month:
+                date_flag = False if date.day <= today.day else True
+                if date.day == today.day:
+                    if today.hour * 60 + 30 + today.minute <= new_time.hour * 60 + new_time.minute:
                         date_flag = True
-                elif today.hour < new_time.hour:
-                    date_flag = True
-            elif date.day > today.day:
-                date_flag = True
             
             if date_flag:
-                flag = False
-                for appointment in appointments:
-                    if appointment.hour == new_time:
-                        flag = True
+                appointment = Appointment.objects.filter(hour = new_time).filter(date = date).first()
+                flag = True if appointment else False
                 if not flag:
                     time_choices.append((i, new_time))
 
@@ -61,6 +57,7 @@ def get_hour(value):
         new_time = time(t.seconds // 3600, (t.seconds // 60) % 60, 0)
     return new_time
 
+@requires_csrf_token
 def confirm_reserve(req, barber_id: int, date: str):
     if req.method == 'POST':
         data = req.POST
@@ -75,7 +72,7 @@ def confirm_reserve(req, barber_id: int, date: str):
             email = data['email']
             new_appointment = Appointment(name = name, barber = barber, date = date, hour = hour, lastname1 = lname1, lastname2 = lname2, email = email)
             host = 'http://127.0.0.1:8000'
-            link = redirect('cancel_reserve', str(new_appointment.cancel_uuid))
+            link = redirect('appointment:cancel_reserve', str(new_appointment.cancel_uuid))
             new_appointment.save()
             body = f"""
             Este email es para confirmarte que tu reserva se ha hecho con éxito.
@@ -106,8 +103,8 @@ def cancel_reserve(req, cancel_uuid: str):
     except:
         m.error(req, 'Página no encontrada')
         return HttpResponseNotFound(render(req, 'main/error.html'))
-    appointment = Appointment.objects.filter(cancel_uuid = cancel_uuid)
-    if len(appointment):
+    appointment = Appointment.objects.filter(cancel_uuid = cancel_uuid).first()
+    if appointment:
         appointment.delete()
         return render(req, 'appointment/cancel.html')
     m.error(req, 'Página no encontrada')

@@ -3,6 +3,8 @@ from django.urls import path
 from appointment.views import reserve, confirm_reserve, cancel_reserve
 from django.views.generic import TemplateView
 
+app_name = 'appointment'
+
 urlpatterns = [
     path('<int:barber_id>/', reserve, name = 'reserve'),
     path('confirm/<int:barber_id>/<str:date>', confirm_reserve, name = 'confirm_reserve'),
