@@ -16,7 +16,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ b.name }} {{ b.lastname1 }}</h5>
                         <p class="card-text">Reserva ya mismo con {{ b.name }}!</p>
-                        <form method="POST" action="{% url 'reserve' b.id %}">
+                        <form method="POST" action="{% url 'appointment:reserve' b.id %}">
                             {% csrf_token %}
                             <input type="date" name="appointment_date" min="{{ min }}" max="{{ max }}" value="{{ value }}">
                             &nbsp;
