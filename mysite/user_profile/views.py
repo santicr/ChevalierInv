@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages as m
+from django.views.decorators.csrf import requires_csrf_token
 
 # Create your views here.
+@requires_csrf_token
 def login_req(req):
     if not req.user.is_authenticated:
         form = AuthenticationForm()
