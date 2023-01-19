@@ -1,0 +1,13 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Añadir nuevo barbero
+{% endblock %}
+
+{% block body %}
+<form method = "POST" action="{% url 'add_barber' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-primary" type="submit">Agregar</button>
+</form>
+{% endblock %}

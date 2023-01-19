@@ -23,5 +23,6 @@ urlpatterns = [
     path('', include('main.urls')),
     path('reserve/', include('appointment.urls')),
     path('user_profile/', include('user_profile.urls')),
+    path('barber/', include('barber.urls')),
     path('prueba/', TemplateView.as_view(template_name = 'index.html'), name = 'prueba')
 ]
