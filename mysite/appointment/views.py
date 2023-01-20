@@ -95,7 +95,7 @@ def confirm_reserve(req, barber_id: int, date: str):
             )
             message.send(fail_silently = False)
 
-    return redirect('index')
+    return redirect('main:index')
 
 def cancel_reserve(req, cancel_uuid: str):
     try:

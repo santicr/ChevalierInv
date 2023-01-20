@@ -1,13 +1,26 @@
 {% extends 'main/base.html' %}
 
 {% block title %}
-Añadir nuevo barbero
+Barberos
 {% endblock %}
 
 {% block body %}
-<form method = "POST" action="{% url 'add_barber' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn btn-primary" type="submit">Agregar</button>
-</form>
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <h2>Barberos</h2>
+            <ul class="list-group">
+                {% for barber in barbers %}
+                    <li class="list-group-item">
+                        {{ barber }}
+                        <form method="POST" action="{% url 'barber:delete_barber' barber.id %}">
+                            {% csrf_token %}
+                            <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
 {% endblock %}

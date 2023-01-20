@@ -5,10 +5,18 @@ Inicio de Sesión
 {% endblock %}
 
 {% block body %}
-<form method="POST" action="{% url 'login_req' %}">
+<form method="POST" action="{% url 'user_profile:login_req' %}">
     {% csrf_token %}
     &nbsp;
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <form method="POST" action="{% url 'user_profile:login_req' %}">
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </form>
 {% endblock %}
