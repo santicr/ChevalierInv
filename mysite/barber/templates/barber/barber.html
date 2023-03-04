@@ -12,7 +12,9 @@ Barberos
             <ul class="list-group">
                 {% for barber in barbers %}
                     <li class="list-group-item">
-                        {{ barber }}
+                        Nombre Completo: {{ barber.name }} {{ barber.lastname1 }} {{ barber.lastname2 }}
+                        <br/>
+                        Id: {{ barber.id }}
                         <form method="POST" action="{% url 'barber:delete_barber' barber.id %}">
                             {% csrf_token %}
                             <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>
@@ -20,6 +22,22 @@ Barberos
                     </li>
                 {% endfor %}
             </ul>
+        </div>
+        <div class="col-3">
+            <h2>Agregar barbero</h2>
+            <form method="POST" action="{% url 'barber:add_barber' %}">
+                {% csrf_token %}
+                {{ barber_form.as_p }}
+                <button type="submit" class="btn btn-primary btn-sm">Agregar barbero</button>
+            </form>
+        </div>
+        <div class="col-3">
+            <h2>Modificar barbero</h2>
+            <form method="POST" action="{% url 'barber:modify_barber' %}">
+                {% csrf_token %}
+                {{ modify_barber_form.as_p }}
+                <button type="submit" class="btn btn-primary btn-sm">Modificar barbero</button>
+            </form>
         </div>
     </div>
 </div>
